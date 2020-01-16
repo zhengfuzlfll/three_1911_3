@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<style type="text/css">
+			body{
+				padding: 15px;
+			}
+			textarea{
+				min-height: 350px;
+				overflow: auto;
+			}
+			.mui-icon-mic{
+				display: block;
+				width: 100%;
+				text-align: center;
+				font-size: 50px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="input-block"> 
+			<textarea > </textarea>
+			<i class="mui-icon mui-icon-mic" id="btnSpeech"></i>
+		</div>
+		<!-- -----------------需要开启网络方可识别--------------------- -->
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui.plusReady(function () {
+			    let btnSpeech=document.querySelector('#btnSpeech');
+				let textSpeech=document.querySelector('textarea')
+				btnSpeech.onclick=()=>{
+					// console.log(666)
+					/* plus.speech.startRecognize( options, successCB, errorCB ); */
+					plus.speech.startRecognize( {
+						/* 识别引擎 baidu（百度）/iFly(讯飞)*/
+						engine:'baidu',
+						/* 多个识别结果 */
+						nbest:3,
+						/* 默认普通话    en-us英语   zh-cn 中文*/
+						lang:'zh-cn'
+					},
+					/* 成功回调 */
+					 (text)=>{
+						console.log(text)
+						textSpeech.innerText=text
+					} );
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,30 @@
+{
+  "id": "1615609",
+  "name": "H5+",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "3177847",
+      "name": "指纹",
+      "font_class": "fingerprint",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "4653895",
+      "name": "支付",
+      "font_class": "zhifu",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "8093223",
+      "name": "分 享",
+      "font_class": "fenxiang",
+      "unicode": "e68f",
+      "unicode_decimal": 59023
+    }
+  ]
+}

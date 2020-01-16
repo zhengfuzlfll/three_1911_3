@@ -5,18 +5,99 @@
 		<meta charset="utf-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="./public/iconfont/iconfont.css"/>
 		<script src="js/mui.js"></script>
 		<link href="css/mui.css" rel="stylesheet" />
 		<script type="text/javascript">
 			mui.init();
-			
-			})
+	
 		</script>
+		
 	</head>
 
 	<body>
 		<h1>Dcloud平台H5+runtime接口调用</h1>
-
+		<ul class="mui-table-view">
+			<li class="mui-table-view-cell mui-media" id="btnCamera">
+					<a href="javascript:;" class="mui-navigate-right">
+						<i class="mui-media-object mui-pull-left mui-icon mui-icon-camera"></i>
+						<div class="mui-media-body" >
+							摄像头
+							<p class='mui-ellipsis'>拍照、录像、二维码...</p>
+						</div>
+					</a>
+			</li>
+			
+			<li class="mui-table-view-cell mui-media" id="btnSpeech" >
+				<!-- mui-navigate-right 右边箭头 -->
+			        <a href="javascript:;" class="mui-navigate-right">
+						<!-- mui-pull-left 左浮动 -->
+			           <span class="mui-icon mui-icon-mic mui-pull-left mui-media-object"></span>
+			            <div class="mui-media-body">
+			                语音识别
+			                <p class='mui-ellipsis'>语音转换文字（需开启网络连接方可识别）</p>
+			            </div>
+			        </a>
+			    </li>	
+				
+				<li class="mui-table-view-cell mui-media" >
+				<!-- mui-navigate-right 右边箭头 -->
+			        <a href="javascript:;" class="mui-navigate-right">
+						<!-- mui-pull-left 左浮动  mui-media-object  居中-->
+			           <span class="mui-icon mui-icon mui-icon-location mui-pull-left mui-media-object"></span>
+			            <div class="mui-media-body">
+			               定位
+			                <p class='mui-ellipsis'>地图、订餐、附近的人...</p>
+			            </div>
+			        </a>
+			    </li>	
+				<li class="mui-table-view-cell mui-media" >
+				<!-- mui-navigate-right 右边箭头 -->
+			        <a href="javascript:;" class="mui-navigate-right">
+						<!-- mui-pull-left 左浮动 -->
+			           <span class="mui-icon mui-icon mui-icon-contact mui-pull-left mui-media-object"></span>
+			            <div class="mui-media-body">
+			                通讯录
+			                <p class='mui-ellipsis'>获取联系人，打电话，发短信...</p>
+			            </div>
+			        </a>
+			    </li>
+				<li class="mui-table-view-cell mui-media" >
+				<!-- mui-navigate-right 右边箭头 -->
+				    <a href="javascript:;" class="mui-navigate-right">
+						<!-- mui-pull-left 左浮动 -->
+				       <!-- <span class="mui-icon mui-icon mui-icon-spinner mui-spin mui-pull-left mui-media-object"></span> -->
+				       <!-- <span class="mui-icon mui-icon-spinner mui-spin mui-pull-left mui-media-object"></span> -->
+				        <span class="iconfont icon-fingerprint mui-pull-left mui-media-object"></span>
+						<div class="mui-media-body">
+				            指纹
+				            <p class='mui-ellipsis'>支付、解锁、打开</p>
+				        </div>
+				    </a>
+				</li>
+				<li class="mui-table-view-cell mui-media" >
+				<!-- mui-navigate-right 右边箭头 -->
+				    <a href="javascript:;" class="mui-navigate-right">
+						<!-- mui-pull-left 左浮动 -->
+				       <span class="mui-icon mui-icon mui-icon-pengyouquan mui-pull-left mui-media-object"></span>
+				        <div class="mui-media-body">
+				            分享
+				            <p class='mui-ellipsis'>分享到朋友圈、QQ空间、微博</p>
+				        </div>
+				    </a>
+				</li>
+				<li class="mui-table-view-cell mui-media" >
+				<!-- mui-navigate-right 右边箭头 -->
+				    <a href="javascript:;" class="mui-navigate-right">
+						<!-- mui-pull-left 左浮动 -->
+				       <span class="mui-icon mui-icon mui-icon-weixin mui-pull-left mui-media-object"></span>
+				        <div class="mui-media-body">
+				            支付
+				            <p class='mui-ellipsis'>支付宝支付、微信支付</p>
+				        </div>
+				    </a>
+				</li>
+		</ul>
 		<script type="text/javascript">	
 			// //方案1
 			// document.addEventListener(('plusready',()=>{
@@ -31,9 +112,30 @@
 			// 	}
 			// }
 			
+			/* 获取元素 */
+			let btnCamera=document.querySelector('#btnCamera');
+			let btnSpeech=document.querySelector('#btnSpeech');
+			
+			
 			//方案3
 			mui.plusReady(function () {
-			    plus.webview
+				// let webview=plus.webview;
+				
+				/* 点击跳转 相机*/
+				btnCamera.onclick=()=>{
+					/* crate实现跳转 plus.webview.create( url, id, styles, extras );*/
+					/* create 创建 得到一个webview对象 */
+					let pageCamera=plus.webview.create( './view/camera.html', 'page_camera');
+					/* 显示 webview.show( id_wvobj, aniShow, duration, showedCB, extras ); */
+					plus.webview.show( 'page_camera', 'slide-in-right',800 );//page_camera在index.html 
+				}
+				
+				/* 语音识别 */
+			   btnSpeech.onclick=()=>{
+				   // console.log(666)
+				   let pageSpeech=plus.webview.create('./view/speech.html','page_speech');
+				   plus.webview.show('page_speech','slide-in-right')
+			   }
 			})
 		</script>
 </body>

@@ -6,24 +6,71 @@
 		<title></title>
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.css" rel="stylesheet" />
+		<style type="text/css">
+			
+			img{
+				width: 100%;
+			}
+			body{
+				padding: 15px;
+			}
+			#btn-block button{
+					/* idth: 100%;
+					display: block;
+					margin: 10px;
+					color: red; */
+					display:block;margin:10px 0;width:100%;height: 50px;
+			}
+			video{
+				width: 100%;
+			}
+		</style>
 	</head>
 
 	<body>
-		<h1>H5+Api</h1>
-		<button id="btnPz" class="mui-btn mui-btn-success">拍照</button>
+		<!-- <h1>H5+Api</h1> -->
+		<button id="btnBack" class="mui-icon mui-icon-arrowleft" >返回</button>
+		<div id="btn-block">
+			<button id="btnPz" class="mui-btn mui-btn-success">拍照</button>
+			<button id="btnVideo" class="mui-btn-danger">录像</button>
+		</div>
+		
+		<!-- 视频 -->
+		<!-- controls 显示控制条  poster显示上的图片 -->
+		<video id="player" controls poster="img/1.jpg">
+		<!-- 	<source src="myvideo.mp4" type="video/mp4"></source>
+			<source src="myvideo.ogv" type="video/ogg"></source>
+			<source src="myvideo.webm" type="video/webm"></source>
+			<object width="" height="" type="application/x-shockwave-flash" data="myvideo.swf">
+				<param name="movie" value="myvideo.swf" />
+				<param name="flashvars" value="autostart=true&amp;file=myvideo.swf" />
+			</object> -->
+			当前浏览器不支持 video,更换电脑
+		</video>
+		
 		<script src="../js/mui.js"></script>
 		<script type="text/javascript">
-			mui.init();
+			mui.init();	
+			/* 返回 */
+			let btnBack=document.querySelector("#btnBack");
+			/* 拍照 */
 			let btn=document.querySelector("#btnPz");
+			/* 录像 */
+			let btnVideo=document.querySelector("#btnVideo");
+			/* video */
+			let player=document.querySelector('#player');
+			
 			document.addEventListener('plusready',()=>{
+				/* 拍照 */
+				let cmr=window.plus.camera.getCamera(1);
 				btn.onclick=function(){
 					/* 点击调用摄像头 */
 					/* 获取摄像头对象 getCamera(1)  1---主摄像头（后置）2--前置*/
-					let cmr=window.plus.camera.getCamera(1);
+					
 					console.log(cmr);
 					cmr.captureImage((path)=>{
 						/* 得到相对地址（临时的地址）=》需要使用绝对地址IO */
-						// console.log(path);
+						console.log(path);
 						// let img=new Image();
 						// img.src=path;
 						// document.body.appendChild(img);	
@@ -38,6 +85,7 @@
 						document.body.appendChild(img);
 						
 						
+						
 						/* 保存到相册 plus.gallery.save*/
 						plus.gallery.save(path,()=>{
 							// alert('保存成功');
@@ -47,10 +95,36 @@
 							plus.nativeUI.toast('保存失败')
 						});
 					},(err)=>{
+						/* 拍照失败进入 */
 						console.log(err);
+					},{
+						/* 配置参数=>使用尺寸 分辨率 */
+						resolution:cmr.supportedImageResolutions[2]
 					})
 					
 				}
+				
+				/* 返回 返回时关闭页面  plus.webview.close( id_wvobj, aniClose, duration, extras );*/
+				btnBack.onclick=()=>{
+					plus.webview.close('page_camera','slide-out-right')
+				}
+				
+				/*录像--------- */
+				btnVideo.onclick=()=>{
+					// console.log(666);
+					cmr.startVideoCapture((path)=>{
+						/* path 本地地址，不能播放 */
+						/* 转换为平台地址，方可正常播放  IO模块 */
+						let realPath=plus.io.convertLocalFileSystemURL(path)
+						console.log(path,realPath)
+						player.src=realPath;
+					},{
+						/* 配置参数  => 配置分辨率*/
+						resolution:cmr.supportedVideoResolutions[9]
+					})
+				}
+			
+			
 			})
 		</script>
 	</body>
