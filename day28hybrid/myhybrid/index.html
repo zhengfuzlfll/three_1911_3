@@ -6,11 +6,61 @@
     <title></title>
     <script src="js/mui.min.js"></script>
     <link href="css/mui.min.css" rel="stylesheet"/>
-    <script type="text/javascript" charset="utf-8">
-      	mui.init();
-    </script>
+  <style type="text/css">
+  	img{
+		width: 100%;
+	}
+  </style>
 </head>
 <body>
-	<h1>H5+</h1>
+<!-- 	<h1>H5+</h1>
+	<h2>6</h2> -->
+	
+	<h1>H5+Api</h1>
+	<button id="btnPz">摄像头</button>
+	<!-- <h2>555</h2> -->
+	<script type="text/javascript" charset="utf-8">
+	  	mui.init();
+		let btn=document.querySelector("#btnPz");
+		document.addEventListener('plusready',()=>{
+			btn.onclick=function(){
+				/* 点击调用摄像头 */
+				/* 获取摄像头对象 getCamera(1)  1---主摄像头（后置）2--前置*/
+				let cmr=window.plus.camera.getCamera(1);
+				console.log(cmr);
+				cmr.captureImage((path)=>{
+					/* 得到相对地址（临时的地址）=》需要使用绝对地址IO */
+					// console.log(path);
+					// let img=new Image();
+					// img.src=path;
+					// document.body.appendChild(img);	
+					
+					
+					//转成平台绝对地址 plus.io.convertLocalFileSystemURL
+					
+					let realPath=window.plus.io.convertLocalFileSystemURL(path);
+					console.log(path,realPath);
+					let img=new Image();
+					img.src=realPath;
+					document.body.appendChild(img);
+					
+					
+					/* 保存到相册 plus.gallery.save*/
+					plus.gallery.save(path,()=>{
+						// alert('保存成功');
+						/* 提示信息    nativeUI */
+						plus.nativeUI.toast('保存成功')
+					},()=>{
+						plus.nativeUI.toast('保存失败')
+					});
+				},(err)=>{
+					console.log(err);
+				})
+				
+			}
+		})
+		
+		
+	</script>
 </body>
 </html>
