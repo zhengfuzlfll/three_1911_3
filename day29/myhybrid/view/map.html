@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<style type="text/css">
+			body{
+				padding: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<h1>定位</h1>
+		<p class="dingwei"></p>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			let dingwei=document.querySelector('.dingwei')
+			mui.init()
+			mui.plusReady(function () {
+			    // plus.geolocation.getCurrentPosition(successCB, errorCB, option)
+				plus.geolocation.getCurrentPosition((position)=>{
+					console.log('position',position)
+					
+				}, (err)=>{
+					console.log('err',err)
+					dingwei.innerHTML=err.message
+				})
+			})
+			/* 判断是否支持定位   html5新特性*/
+			// if(navigator.geolocation){
+			// 	console.log('geolocation55555555');
+			// 	navigator.geolocation.getCurrentPosition((position)=>{
+			// 		console.log('html5',position)
+			// 	},(err)=>{
+			// 		console.log('err',err)
+			// 	},{
+				/* 是否超时 */
+			// 		timeout:3000
+			// 	})
+			// }else{
+			// 	console.log('不支持');
+			// }
+		</script>
+	</body>
+
+</html>

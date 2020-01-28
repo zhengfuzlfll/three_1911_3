@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.css" rel="stylesheet" />
+		<style>
+			html,body{width:100%;height:100%;background-color:#fff;}
+			body{margin:0;padding:10px;} 
+			.goods img{width:100%;}
+			.price span{color:#f00;}
+			.price span::before{
+				content:'￥'
+			}
+			.price del{margin-right:5px}
+			.price del::before{
+				content:'￥'
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="goods">
+			<img src="img/1.jpg" >
+			<h1>年底大促销</h1>
+			<p class="price">价格：<del>998.00</del><span>9.80</span></p>
+			<button class="mui-btn mui-btn-danger btnBuy">立即抢购</button>
+		</div>
+		<script src="../js/mui.js"></script>
+		<script type="text/javascript">
+			mui.init()
+			/*  */
+			let btnBuy=document.querySelector('.btnBuy');
+			btnBuy.onclick=()=>{
+				// console.log(888)
+				/* 判断是否支持指纹 true 支持指纹/false 不支持指纹u*/
+				let haszhiwen=plus.fingerprint.isSupport();
+				// console.log(haszhiwen)
+				if(haszhiwen){
+					/* 指纹认证 */
+					plus.fingerprint.authenticate(()=>{
+						/* 成功回调 */
+					},(err)=>{
+						/* 失败回调 */
+						console.log(err)
+						
+					},{
+						/* 配置参数 */
+						message:'请验证指纹'
+					})
+					
+				}else{
+					/* nativeUI  提示*/
+					plus.nativeUI.alert('当前设备不支持指纹')
+				}
+			}
+		</script>
+	</body>
+
+</html>

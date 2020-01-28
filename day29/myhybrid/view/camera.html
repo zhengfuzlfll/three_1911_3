@@ -63,11 +63,12 @@
 			document.addEventListener('plusready',()=>{
 				/* 拍照 */
 				let cmr=window.plus.camera.getCamera(1);
+				console.log('cmr',cmr);
 				btn.onclick=function(){
 					/* 点击调用摄像头 */
 					/* 获取摄像头对象 getCamera(1)  1---主摄像头（后置）2--前置*/
 					
-					console.log(cmr);
+					
 					cmr.captureImage((path)=>{
 						/* 得到相对地址（临时的地址）=》需要使用绝对地址IO */
 						console.log(path);

@@ -40,7 +40,7 @@
 			        </a>
 			    </li>	
 				
-				<li class="mui-table-view-cell mui-media" >
+				<li class="mui-table-view-cell mui-media" id="btnGeolocation" >
 				<!-- mui-navigate-right 右边箭头 -->
 			        <a href="javascript:;" class="mui-navigate-right">
 						<!-- mui-pull-left 左浮动  mui-media-object  居中-->
@@ -51,7 +51,7 @@
 			            </div>
 			        </a>
 			    </li>	
-				<li class="mui-table-view-cell mui-media" >
+				<li class="mui-table-view-cell mui-media" id="contacts">
 				<!-- mui-navigate-right 右边箭头 -->
 			        <a href="javascript:;" class="mui-navigate-right">
 						<!-- mui-pull-left 左浮动 -->
@@ -62,7 +62,7 @@
 			            </div>
 			        </a>
 			    </li>
-				<li class="mui-table-view-cell mui-media" >
+				<li class="mui-table-view-cell mui-media" id="fingerPrint">
 				<!-- mui-navigate-right 右边箭头 -->
 				    <a href="javascript:;" class="mui-navigate-right">
 						<!-- mui-pull-left 左浮动 -->
@@ -115,6 +115,9 @@
 			/* 获取元素 */
 			let btnCamera=document.querySelector('#btnCamera');
 			let btnSpeech=document.querySelector('#btnSpeech');
+			let btnGeolocation=document.querySelector('#btnGeolocation');
+			let btnContacts=document.querySelector('#contacts');
+			let btnfingerPrint=document.querySelector('#fingerPrint');
 			
 			
 			//方案3
@@ -135,6 +138,24 @@
 				   // console.log(666)
 				   let pageSpeech=plus.webview.create('./view/speech.html','page_speech');
 				   plus.webview.show('page_speech','slide-in-right')
+			   }
+			   
+			   /* 定位*/
+			   btnGeolocation.onclick=()=>{
+				   let pageMap=plus.webview.create('./view/map.html','page_map');
+				   plus.webview.show('page_map','slide-in-right')
+			   }
+			   
+			   /* 联系人*/
+			   btnContacts.onclick=()=>{
+				   let pageContacts=plus.webview.create('./view/contacts.html','page_Contacts')
+				   plus.webview.show('page_Contacts','slide-in-right')
+			   }
+			   
+			   /* 指纹*/
+			   btnfingerPrint.onclick=()=>{
+				   let pageFingerPrint=plus.webview.create('./view/fingerprint.html','page_fingerprint')
+				   plus.webview.show('page_fingerprint','slide-in-right')
 			   }
 			})
 		</script>
