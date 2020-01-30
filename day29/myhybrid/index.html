@@ -75,7 +75,7 @@
 				        </div>
 				    </a>
 				</li>
-				<li class="mui-table-view-cell mui-media" >
+				<li class="mui-table-view-cell mui-media" id="share" >
 				<!-- mui-navigate-right 右边箭头 -->
 				    <a href="javascript:;" class="mui-navigate-right">
 						<!-- mui-pull-left 左浮动 -->
@@ -118,6 +118,7 @@
 			let btnGeolocation=document.querySelector('#btnGeolocation');
 			let btnContacts=document.querySelector('#contacts');
 			let btnfingerPrint=document.querySelector('#fingerPrint');
+			let btnShare=document.querySelector('#share');
 			
 			
 			//方案3
@@ -156,6 +157,12 @@
 			   btnfingerPrint.onclick=()=>{
 				   let pageFingerPrint=plus.webview.create('./view/fingerprint.html','page_fingerprint')
 				   plus.webview.show('page_fingerprint','slide-in-right')
+			   }
+			   
+			   /* 分享*/
+			   btnShare.onclick=()=>{
+				   let pageShare=plus.webview.create('./view/share.html','page_share')
+				   plus.webview.show('page_share','slide-in-right')
 			   }
 			})
 		</script>

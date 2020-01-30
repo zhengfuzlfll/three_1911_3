@@ -26,38 +26,34 @@
 			<img src="img/1.jpg" >
 			<h1>年底大促销</h1>
 			<p class="price">价格：<del>998.00</del><span>9.80</span></p>
-			<button class="mui-btn mui-btn-danger btnBuy">立即抢购</button>
+			<button class="mui-btn btnSystemShare">系统分享</button>
+			<button class="mui-btn-success btnShare">分享</button>
 		</div>
 		<script src="../js/mui.js"></script>
 		<script type="text/javascript">
 			mui.init()
-			/*  */
-			let btnBuy=document.querySelector('.btnBuy');
+			/* 获取节点 */
+			let btnSystemShare=document.querySelector('.btnSystemShare');
+			let btnShare=document.querySelector('.btnShare');
+			
 			mui.plusReady(function () {
-			   btnBuy.onclick=()=>{
-			   	// console.log(888)
-			   	/* 判断是否支持指纹 true 支持指纹/false 不支持指纹u*/
-			   	let haszhiwen=plus.fingerprint.isSupport();
-			   	// console.log('haszhiwen',haszhiwen)
-			   	if(haszhiwen){
-			   		/* 指纹认证 */
-			   		plus.fingerprint.authenticate(()=>{
-			   		// 	/* 成功回调 */
-					console.log('认证成功')
-			   		},(err)=>{
-			   		// 	/* 失败回调 */
-			   			console.log('err',err)
-			   			
-			   		},{
-			   		// 	/* 配置参数 */
-			   			message:'请验证指纹'
-			   		})
-			   		// console.log(666)
-			   	}else{
-			   		/* nativeUI  提示*/
-			   		plus.nativeUI.alert('当前设备不支持指纹')
-			   	}
-			   } 
+				/* 普通的分享 */
+			   btnShare.onclick=()=>{
+				   plus.share.getServices((services)=>{
+					   /* 成功回调  => 获取支持分享的通道，即支持分享到哪里*/
+					   console.log('services',services)
+					   /* 显示分享菜单 actionSheet*/
+					   plus.nativeUI.actionSheet({
+						   /* 样式 */
+						   title:'分享到'
+					   },()=>{
+						   /* 成功回调*/
+					   })
+				   },(err)=>{
+					   /* 失败回调*/
+					   console.log('err',err)
+				   })
+			   }
 			})
 			
 		</script>
