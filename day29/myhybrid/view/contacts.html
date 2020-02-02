@@ -31,11 +31,37 @@
 			let contactsList=document.querySelector('#contacts-list');
 			
 			mui.plusReady(function () {
+				/* 设备 */
+				console.log('plus.device',plus.device)
+				/* 获取设备信息 */
+				plus.device.getInfo({
+					success(e){
+						console.log('设备信息',e)
+					}
+				})
+				
 				let {getAddressBook,ADDRESSBOOK_PHONE}=plus.contacts
 				/* 获取通讯录对象 */
 				/* plus.contacts.getAddressBook( type, succesCB, errorCB ); type手机通讯录/SIM卡通讯录*/
 			   getAddressBook( ADDRESSBOOK_PHONE, (addressbook )=>{
 				   console.log('addressbook',addressbook );
+				   
+				   /* 点击拨打电话的方法=====>要为全局方法，否则报错*/
+				   // function dial(number){
+					  //  console.log('number',number)
+					  //  // plus.device.dial(number,confirm)
+				   // } 
+				   
+				  window.dial= function(number){
+					   console.log('number',number)
+					   /* 蜂鸣声，5次*/
+					   // plus.device.beep(5);
+					   /* 震动 2s*/
+					   // plus.device.vibrate(2000);
+					   /*confirm默认为true,即需要确认才能拨打，false点击后直接拨打出去 */
+					   // plus.device.dial(number,false)
+					   plus.device.dial(number,confirm)
+				   }
 				   
 				   /* 查找联系人 addressbook.find( contactFields, successCB, errorCB, findOptions )*/
 				   addressbook.find( ['displayname','phoneNumbers'], (contacts )=>{
@@ -50,7 +76,8 @@
 										<!-- return `<a href='mailto:laoxie@1000phone.com'>${ele.value}</a>` -->
 										<!-- 拨打电话号码 =》a标签实现，有兼容问题 -->
 										<!-- return `<a href='tel:${ele.value}'>${ele.value}</a>` -->
-										return `<span>${ele.value}</span>` -->
+										<!-- 若报错 Uncaught SyntaxError: missing ) after argument list   要在dial里的参数加引号'' -->
+										return `<span onclick="dial('${ele.value}')">${ele.value}</span>` 
 										
 									}).join(',')
 								}

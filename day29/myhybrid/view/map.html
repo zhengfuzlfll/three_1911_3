@@ -7,25 +7,100 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<link href="../css/mui.css" rel="stylesheet" />
 		<style type="text/css">
-			body{
-				padding: 15px;
-			}
+			html,body{width:100%;height:100%}
+			#bdmap{width:100%;height:100%}
+		/* 	#show_block{
+				position: fixed;
+				
+			} */
 		</style>
 	</head>
 
 	<body>
-		<h1>定位</h1>
-		<p class="dingwei"></p>
+		<div id="show_block">
+			<h1 style="padding-left: 15px;padding-top: 15px;">定位</h1>
+			<p class="dingwei" style="padding-left: 15px;"></p>
+		</div>
+	
+		<!-- 显示地图(地图的容器) ==》必须设置宽高，否则地图无法显示 -->
+		<div id="bdmap"> </div>
+		
 		<script src="../js/mui.js"></script>
+		<!-- 引入地图接口 -->
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=opGm4QVHYEXpPbK3tuKjKIEQaEYNAa89"></script>
 		<script type="text/javascript">
 			let dingwei=document.querySelector('.dingwei')
 			mui.init()
 			mui.plusReady(function () {
 			    // plus.geolocation.getCurrentPosition(successCB, errorCB, option)
 				plus.geolocation.getCurrentPosition((position)=>{
+					/* 成功定位 */
 					console.log('position',position)
+					dingwei.innerHTML=position.addresses
 					
+					
+					let  {coords}=position;
+					/*纬度，精度 ，城市*/
+					let {latitude,longitude,city}=coords
+					
+					/* 坐标转换=》更精确的位置 */
+					 var convertor = new BMap.Convertor();
+					var pointArr = [];
+					let ggPoint=new BMap.Point(longitude, latitude)
+					pointArr.push(ggPoint);
+					convertor.translate(pointArr, 1, 5, function (data){
+					  if(data.status === 0) {
+						var marker = new BMap.Marker(data.points[0]);
+						map.addOverlay(marker);
+						// var label = new BMap.Label("转换后的百度坐标（正确）",{offset:new BMap.Size(20,-10)});
+						var label = new BMap.Label(position.addresses,{offset:new BMap.Size(20,-10)});
+						marker.setLabel(label); //添加百度label
+						map.setCenter(data.points[0]);
+					  }
+					})
+					
+					
+					/* 使用百度地图 */
+						// 百度地图API功能
+						var map = new BMap.Map("bdmap");    // 创建Map实例
+						// centerAndZoom  设置地图中心点和缩放级别
+						//map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);  // 初始化地图,设置中心点坐标和地图级别
+						// map.centerAndZoom(new BMap.Point(longitude, latitude), 11);  // 初始化地图,设置中心点坐标和地图级别
+						map.centerAndZoom(ggPoint, 11);  // 初始化地图,设置中心点坐标和地图级别
+						/* 根据城市定位中心点 */
+						// map.centerAndZoom("广州",11);      // 初始化地图,用城市名设置地图中心点
+						
+						//添加地图类型控件
+						map.addControl(new BMap.MapTypeControl({
+							mapTypes:[
+					            BMAP_NORMAL_MAP,
+					            BMAP_HYBRID_MAP
+					        ]}));	  
+						map.setCurrentCity(city);          // 设置地图显示的城市 此项是必须设置的
+						map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+						
+						/* 拖拽 */
+						 map.enableDragging();
+						
+						/* 构造全景视图 */
+						var stCtrl = new BMap.PanoramaControl(); //构造全景控件
+						stCtrl.setOffset(new BMap.Size(20, 20));
+						map.addControl(stCtrl);//添加全景控件
+					
+					/* 显示地图，需要使用经纬度 */
+					/* 监听位置变化 =>轮询*/
+					// plus.geolocation.watchPosition((position)=>{
+					// 	// console.log('watchPosition')
+						
+					// 	/* AK（秘钥）: opGm4QVHYEXpPbK3tuKjKIEQaEYNAa89 */
+						
+						
+						
+					// },(err)=>{
+					// 	console.log('err',err)
+					// })
 				}, (err)=>{
+					/* 定位出错  */
 					console.log('err',err)
 					dingwei.innerHTML=err.message
 				})

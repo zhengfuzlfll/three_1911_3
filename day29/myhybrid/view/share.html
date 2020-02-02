@@ -37,23 +37,80 @@
 			let btnShare=document.querySelector('.btnShare');
 			
 			mui.plusReady(function () {
+				
+				/* 分享的内容 */
+				let msg={
+					// type:'images',
+					type:'text',
+					pictures:['img/1.jpg','img/2.jpg'],
+					title:'千峰姐妹花',
+					content:'千峰姐妹花2',
+					href:'http://www.baidu.com'
+				}
+				
 				/* 普通的分享 */
 			   btnShare.onclick=()=>{
 				   plus.share.getServices((services)=>{
 					   /* 成功回调  => 获取支持分享的通道，即支持分享到哪里*/
 					   console.log('services',services)
+					   
+					   /* 分享的通道*/
+					   let buttons=services.map(item=>{
+						   return {title:item.description}
+					   })
+					   
 					   /* 显示分享菜单 actionSheet*/
 					   plus.nativeUI.actionSheet({
-						   /* 样式 */
-						   title:'分享到'
-					   },()=>{
-						   /* 成功回调*/
+						   /* 样式 配置参数 title\buttons  必须参数*/
+						   title:'分享到',
+						    cancel:'取消分享',
+						/* buttons:[{title:'laoxie'},{title:'jingjing'}], */
+							buttons  //	分享的通道  微信、新浪...					  
+						   
+						   
+						   
+					   },(e)=>{
+						   /* 成功回调 分享出去  actionSheetCallback*/
+						   /* e.index  判断点击了哪一个分享*/
+						   console.log(e.index)
+						   /* 获取分享服务对象*/
+						   let idx=e.index
+						   if(idx>0){
+							   let currentService=services[idx-1]
+							   
+							   /* 判断当前服务对象是否已认证授权*/
+							   if(!currentService.authenticated){
+								   /* 未认证  原型上的方法 */
+								   currentService.authorize(()=>{
+									   /* 成功回调      认证成功，然后分享*/
+									   currentService.send(msg,()=>{
+										   /* 分享成功*/
+									   },()=>{
+										   /* 分享失败*/
+									   })
+								   },()=>{
+									   /* 认证失败*/
+								   })
+							   }else{
+								   /* 分享*/
+							   }
+						   }
 					   })
 				   },(err)=>{
 					   /* 失败回调*/
 					   console.log('err',err)
 				   })
 			   }
+			
+				/* 系统分享 */
+				btnSystemShare.onclick=()=>{
+					plus.share.sendWithSystem(msg,()=>{
+						/* 分享成功 */
+						plus.nativeUI.toast('分享成功')
+					},(err)=>{
+						plus.nativeUI.alert('分享失败')
+					})
+				}
 			})
 			
 		</script>

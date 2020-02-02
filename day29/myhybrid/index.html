@@ -79,18 +79,18 @@
 				<!-- mui-navigate-right 右边箭头 -->
 				    <a href="javascript:;" class="mui-navigate-right">
 						<!-- mui-pull-left 左浮动 -->
-				       <span class="mui-icon mui-icon mui-icon-pengyouquan mui-pull-left mui-media-object"></span>
+				       <span class="mui-icon mui-icon  mui-pull-left mui-media-object iconfont icon-fenxiang"></span>
 				        <div class="mui-media-body">
 				            分享
 				            <p class='mui-ellipsis'>分享到朋友圈、QQ空间、微博</p>
 				        </div>
 				    </a>
 				</li>
-				<li class="mui-table-view-cell mui-media" >
+				<li class="mui-table-view-cell mui-media" id="pay">
 				<!-- mui-navigate-right 右边箭头 -->
 				    <a href="javascript:;" class="mui-navigate-right">
 						<!-- mui-pull-left 左浮动 -->
-				       <span class="mui-icon mui-icon mui-icon-weixin mui-pull-left mui-media-object"></span>
+				       <span class="mui-icon mui-icon  mui-pull-left mui-media-object iconfont icon-zhifu"></span>
 				        <div class="mui-media-body">
 				            支付
 				            <p class='mui-ellipsis'>支付宝支付、微信支付</p>
@@ -119,6 +119,7 @@
 			let btnContacts=document.querySelector('#contacts');
 			let btnfingerPrint=document.querySelector('#fingerPrint');
 			let btnShare=document.querySelector('#share');
+			let btnPay=document.querySelector('#pay');
 			
 			
 			//方案3
@@ -163,6 +164,12 @@
 			   btnShare.onclick=()=>{
 				   let pageShare=plus.webview.create('./view/share.html','page_share')
 				   plus.webview.show('page_share','slide-in-right')
+			   }
+			   
+			   /* 支付*/
+			   btnPay.onclick=()=>{
+				   let pagePay=plus.webview.create('./view/payment.html','page_payment')
+				   plus.webview.show('page_payment','slide-in-right')
 			   }
 			})
 		</script>
